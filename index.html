@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style>
+			body {
+				font-family: monospace;
+				padding: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+
+function echo(str) {
+	document.querySelector("#output").innerHTML=str;
+}
+
+fetch("http://localhost:8086/api/v1/datarefs", {
+	headers: {
+	"Accept": "application/json, text/plain, */*"
+	}
+})
+.then((response) => response.json())
+.then((datarefs) => echo("Got " + datarefs.data.length + " datarefs"))
+.catch((error) => echo(error.message + ". Sim not running? Reload page to try again..."));
+
+		</script>
+		<h1>Sim data</h1>
+		<p id="output">Getting data from sim...</p>
+		<h1>Explanation</h1>
+		<p>This page demonstrates that the HTTP API as of X-Plane 12.1.1 allows every website to access a currently running Sim. Usually browsers prevent such access for security reasons but X-Plane responds with a "*" CORS header value thus permitting requests from websites.</p>
+		<p>While having access from websites is a very nice feature (providing sim extensions has never been that simple - just distribute a link!), there needs to be some form of authorization. I think a simple site on "api/v1/authenticate" which uses the "Origin" value sent by the client should be enough. The user would have to confirm "Allow {Origin} to access X-Plane?" and requests from that website would now have Origin returned in the CORS header instead of the insecure "*".</p>
+		<p>For any questions feel free to contact me at mh@lambdasoup.com</p>
+	</body>
+</html>
